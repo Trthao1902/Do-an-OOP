@@ -3,19 +3,19 @@ package NHANVIEN;
 import java.util.Date;
 import java.io.*;
 
-public class QUANLY extends NHANVIEN {
-    private int ngayCong;
-    private float heSoThuong = 0.08f;
-    
-	public QUANLY() {
+public class THUNGAN extends NHANVIEN{
+	private int ngayCong;
+	private float heSoThuong = 0.05f;
+	
+	public THUNGAN() {
 		super();
 	}
-
-	public QUANLY(NHANVIEN nv) {
+	
+	public THUNGAN(NHANVIEN nv) {
 		super(nv);
 	}
-
-	public QUANLY(String chucVu, String maNhanVien, String tenNhanVien, String sDT, String diaChi, Boolean gioiTinh,
+	
+	public THUNGAN(String chucVu, String maNhanVien, String tenNhanVien, String sDT, String diaChi, Boolean gioiTinh,
 			long luongCoBan, Date ngaySinh, Date ngayVaoLam, int ngayCong, float heSoThuong) {
 		super(chucVu, maNhanVien, tenNhanVien, sDT, diaChi, gioiTinh, luongCoBan, ngaySinh, ngayVaoLam);
 		this.ngayCong = ngayCong;
@@ -23,22 +23,22 @@ public class QUANLY extends NHANVIEN {
 	}
 
 	public int getNgayCong() {
-        return ngayCong;
-    }
+		return ngayCong;
+	}
 
-    public void setNgayCong(int ngayCong) {
-    		this.ngayCong = ngayCong;
-    }
+	public void setNgayCong(int ngayCong) {
+		this.ngayCong = ngayCong;
+	}
 
-    public float getHeSoThuong() {
-        return heSoThuong;
-    }
+	public float getHeSoThuong() {
+		return heSoThuong;
+	}
 
-    public void setHeSoThuong(float heSoThuong) {
-        this.heSoThuong = heSoThuong;
-    }
-    
-    @Override
+	public void setHeSoThuong(float heSoThuong) {
+		this.heSoThuong = heSoThuong;
+	}
+	
+	@Override
     public long tinhLuong() {
         long luong = getLuongCoBan() + (long) (ngayCong * getLuongCoBan() * heSoThuong);
         return luong;
@@ -47,7 +47,7 @@ public class QUANLY extends NHANVIEN {
 
     @Override
     public void input() {
-        super.input();
+    	super.input();
         System.out.println("Nhap so ngay cong (25-31): ");
         while (true) {
             try {
@@ -63,11 +63,10 @@ public class QUANLY extends NHANVIEN {
         }
     }
 
-
     @Override
     public void output() {
         super.output();
-        if (getChucVu().equalsIgnoreCase("Quan ly")) {
+        if (getChucVu().equalsIgnoreCase("Thu ngan")) {
             System.out.println("So ngay cong: " + getNgayCong());
             System.out.println("Luong thang: " + tinhLuong());
         }
@@ -76,10 +75,13 @@ public class QUANLY extends NHANVIEN {
     @Override
     public void docFile(String tenFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(tenFile))) {
+            // Read data from the file and set values accordingly
             String chucVu = br.readLine();
             String maNhanVien = br.readLine();
+
             this.setChucVu(chucVu);
             this.setMaNhanVien(maNhanVien);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,6 +90,7 @@ public class QUANLY extends NHANVIEN {
     @Override
     public void ghiFile(String tenFile) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tenFile))) {
+            // Write data to the file
             bw.write(this.getChucVu());
             bw.newLine();
             bw.write(this.getMaNhanVien());

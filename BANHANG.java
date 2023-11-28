@@ -1,7 +1,7 @@
-package DOANOOP;
+package NHANVIEN;
 
-import java.util.Scanner;
 import java.util.Date;
+import java.io.*;
 
 public class BANHANG extends NHANVIEN {
 	private int ngayCong;
@@ -43,14 +43,23 @@ public class BANHANG extends NHANVIEN {
         long luong = getLuongCoBan() + (long) (ngayCong * getLuongCoBan() * heSoThuong);
         return luong;
     }
-
-
+	
     @Override
     public void input() {
-        super.input();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Nhap so ngay cong: ");
-        ngayCong = Integer.parseInt(sc.nextLine());
+    	super.input();
+        System.out.println("Nhap so ngay cong (25-31): ");
+        while (true) {
+            try {
+                ngayCong = Integer.parseInt(sc.nextLine());
+                if (ngayCong >= 25 && ngayCong <= 31) {
+                    break;
+                } else {
+                    System.out.println("So ngay cong khong hop le. Hãy nhập lại.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Vui long nhap mot so nguyen.");
+            }
+        }
     }
 
     @Override
@@ -61,5 +70,29 @@ public class BANHANG extends NHANVIEN {
             System.out.println("Luong thang: " + tinhLuong());
         }
     }
+    
+    @Override
+    public void docFile(String tenFile) {
+        try (BufferedReader br = new BufferedReader(new FileReader(tenFile))) {
+            String chucVu = br.readLine();
+            String maNhanVien = br.readLine();
+            this.setChucVu(chucVu);
+            this.setMaNhanVien(maNhanVien);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void ghiFile(String tenFile) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tenFile))) {
+            bw.write(this.getChucVu());
+            bw.newLine();
+            bw.write(this.getMaNhanVien());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 

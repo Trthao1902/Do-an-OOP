@@ -1,18 +1,21 @@
-package DOANOOP;
+package NHANVIEN;
 
 import java.util.Scanner;
+
+import SANPHAM.DOCGHIFILE;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class NHANVIEN {
+public abstract class NHANVIEN implements DOCGHIFILE {
 	private String chucVu, maNhanVien, tenNhanVien, SDT, diaChi;
 	private Boolean gioiTinh;
 	private long luongCoBan = 4000000;
 	private Date ngaySinh, ngayVaoLam;
+	Scanner sc = new Scanner(System.in);
 
 	public NHANVIEN() {
 	}
-
 	
 	public NHANVIEN(String chucVu, String maNhanVien, String tenNhanVien, String sDT, String diaChi, Boolean gioiTinh,
 			long luongCoBan, Date ngaySinh, Date ngayVaoLam) {
@@ -38,7 +41,7 @@ public abstract class NHANVIEN {
 		this.ngaySinh = nv.ngaySinh;
 		this.ngayVaoLam = nv.ngayVaoLam;
 	}
-
+	
 	public String getChucVu() {
 		return chucVu;
 	}
@@ -94,14 +97,6 @@ public abstract class NHANVIEN {
 	public void setLuongCoBan(long luongCoBan) {
 		this.luongCoBan = luongCoBan;
 	}
-	
-	public String getngaySinhFormat() {
-		if (ngaySinh == null) {
-			return "Ngay sinh khong hop le!";
-		}
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		return df.format(ngaySinh);
-	}
 
 	public Date getNgaySinh() {
 		return ngaySinh;
@@ -109,11 +104,6 @@ public abstract class NHANVIEN {
 
 	public void setNgaySinh(Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
-	}
-	
-	public String getngayVaoLamFormat() {
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		return df.format(ngayVaoLam);
 	}
 
 	public Date getNgayVaoLam() {
@@ -127,35 +117,27 @@ public abstract class NHANVIEN {
 	public abstract long tinhLuong();
 	
 	public void input() {
-		Scanner sc = new Scanner(System.in);
-		
-		// Nhập và kiểm tra mã nhân viên
         do {
             System.out.println("Nhap ma nhan vien: ");
             setMaNhanVien(sc.nextLine());
         } while (getMaNhanVien() == null || getMaNhanVien().isEmpty());
 
-        // Nhập và kiểm tra tên nhân viên
         do {
             System.out.println("Nhap ten nhan vien: ");
             setTenNhanVien(sc.nextLine());
         } while (getTenNhanVien() == null || getTenNhanVien().isEmpty());
 
-        // Nhập và kiểm tra số điện thoại
         do {
             System.out.println("Nhap so dien thoai: ");
             setSDT(sc.nextLine());
         } while (getSDT() == null || !getSDT().matches("\\d{10}"));
 
-        // Nhập và kiểm tra địa chỉ
         System.out.println("Nhap dia chi: ");
         setDiaChi(sc.nextLine());
 
-        // Nhập và kiểm tra giới tính
         System.out.println("Nhap gioi tinh (true/false): ");
         setGioiTinh(sc.nextBoolean());
 
-        // Nhập và kiểm tra ngày sinh
         do {
             System.out.println("Nhap ngay sinh (dd-MM-yyyy): ");
             try {
@@ -166,7 +148,6 @@ public abstract class NHANVIEN {
             }
         } while (getNgaySinh() == null || getNgaySinh().after(new Date()));
 
-        // Nhập và kiểm tra ngày vào làm
         do {
             System.out.println("Nhap ngay vao lam (dd-MM-yyyy): ");
             try {
@@ -177,7 +158,6 @@ public abstract class NHANVIEN {
             }
         } while (getNgayVaoLam() == null || getNgayVaoLam().after(new Date()));
         
-        //Nhập và kiểm tra chức vụ
         System.out.println("Chon chuc vu: ");
 		System.out.println("  1. Quan ly");
 		System.out.println("  2. Ban hang");
@@ -213,26 +193,14 @@ public abstract class NHANVIEN {
 	
 	public void output() {
         System.out.println("Thong tin nhan vien:");
-        System.out.println("Ma nhan vien: " + getMaNhanVien());
-        System.out.println("Ten nhan vien: " + getTenNhanVien());
-        System.out.println("So dien thoai: " + getSDT());
-        System.out.println("Dia chi: " + getDiaChi());
-        System.out.println("Gioi tinh: " + (getGioiTinh() ? "Nam" : "Nu"));
-        System.out.println("Luong co ban: " + getLuongCoBan());
-        System.out.println("Ngay sinh: " + getngaySinhFormat());
-        System.out.println("Ngay vao lam: " + getngayVaoLamFormat());
-        System.out.println("Chuc vu: " + (getChucVu() != null ? getChucVu() : "Chua xac dinh"));
-    }
-	
-	public static void main(String[] args) {
-        QUANLY ql = new QUANLY();
-        ql.input();
-        ql.output();
-        
-        BANHANG bh = new BANHANG();
-        bh.input();
-        bh.output();
+        System.out.println("Ma nhan vien: " + maNhanVien);
+        System.out.println("Ten nhan vien: " + tenNhanVien);
+        System.out.println("So dien thoai: " + SDT);
+        System.out.println("Dia chi: " + diaChi);
+        System.out.println("Gioi tinh: " + (gioiTinh ? "Nam" : "Nu"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        System.out.println("Ngay sinh: " + dateFormat.format(getNgaySinh()));
+        System.out.println("Ngay vao lam: " + dateFormat.format(getNgayVaoLam()));
+        System.out.println("Chuc vu: " + (chucVu != null ? chucVu : "Chua xac dinh"));
     }
 }
-	
-
